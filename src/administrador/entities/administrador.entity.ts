@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 
 
 
-@Entity()
+@Entity('Administrador')
 export class Administrador {
 
     @PrimaryGeneratedColumn({name: 'Id'})

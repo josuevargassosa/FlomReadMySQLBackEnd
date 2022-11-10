@@ -4,7 +4,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDa
 
 
 
-@Entity()
+@Entity('Comentario')
 export class Comentario {
 
     @PrimaryGeneratedColumn({name: 'Id'})
