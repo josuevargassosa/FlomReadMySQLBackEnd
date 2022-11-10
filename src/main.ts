@@ -14,7 +14,7 @@ async function bootstrap() {
   // .addTag('flomread')
   .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs/resnow', app, document);
+  SwaggerModule.setup('api', app, document);
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
