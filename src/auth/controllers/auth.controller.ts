@@ -71,13 +71,12 @@ export class AuthController {
     return this.authService.perfilLector(empresa.sub);
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post('refresh-access-token')
   getToken(@Body() token: any) {
+    console.log('REFRESSSS', token);
     return this.authService.refreshJWT(token);
   }
-
 
   @Post('recuperar-clave')
   @Public()
