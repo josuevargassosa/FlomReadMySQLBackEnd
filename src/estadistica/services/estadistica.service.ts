@@ -14,20 +14,20 @@ export class EstadisticaService {
 
 
   async getTop5Libros() {
-    return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica = 'libros5'");  
+    //return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica ='" + 'libros5' + "'");  
+    const libros5 = await this.libroLectorRepo.query(`call ${process.env.DB_NAME}.SP_EstadisticasEspecificas('libros5')`);
+    return libros5[0];
   }
 
-  // async find(email: string): Promise<Usuario[]>{
-  //   return await this.usuariosRepository.query("sp_prueba @email='"+email +"'");
-  // }
-
-
-
   async getTop5Instituciones() {
-    return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica = 'instituciones5'"); 
+    // return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica ='" + 'instituciones5' + "'"); 
+    const instituciones5 = await this.libroLectorRepo.query(`call ${process.env.DB_NAME}.SP_EstadisticasEspecificas('instituciones5')`);
+    return instituciones5[0];
   }
 
   async getTop5Lectores() {
-    return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica = 'lectores5'"); 
+    // return await this.libroLectorRepo.query("SP_EstadisticasEspecificas @TipoEstadistica ='" + 'lectores5' + "'"); 
+    const lectores5 = await this.libroLectorRepo.query(`call ${process.env.DB_NAME}.SP_EstadisticasEspecificas('lectores5')`);
+    return lectores5[0];
   }
 }

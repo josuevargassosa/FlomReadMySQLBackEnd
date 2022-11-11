@@ -32,7 +32,7 @@ import { loginLectorDto } from 'src/lector/dto/lector.dtos';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  // @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard('local'))
   @Post('login')
   login(@Body() req: loginDto) {
     return this.authService.generateJWT(req);
