@@ -68,17 +68,15 @@ export class AuthService {
   }
 
   async generateJWT(usuario: loginDto, message?) {
-    const usuarioFind: AdministradorDto = await this.findClienteByEmail(
-      usuario.correo,
-    );
+    const data = await this.findClienteByEmail(usuario.correo);
     const payload: PayloadToken = {
-      sub: usuarioFind.id,
-      correo: usuarioFind.correo,
+      sub: data.id,
+      correo: data.correo,
     };
     return {
       accessToken: this.jwtService.sign(payload),
-      usuario,
-      message: message != null ? message : 'INICIO DE SESIÓN EXITOSO',
+      data,
+      message: message ?? 'INICIO DE SESIÓN EXITOSO',
     };
   }
 
@@ -111,6 +109,7 @@ export class AuthService {
 
   async perfil(idAdmin: number) {
     var empresa = await this.administradorRepo.findOneBy({ id: idAdmin });
+    console.log('EMPRESA', empresa);
     return empresa;
   }
 

@@ -30,15 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   // ESTA FUNCION LO QUE HARA SERA RECIBIR EL TOKEN DECODIFICADO
   // CON LA CARGA DE DATOS QUE LE PUSIMOS AL HACER LOGIN
-  // validate(payload: PayloadToken) {
-  //     return payload;
-  // }
-  async validate(correo: string, clave: string) {
-    const user: any = await this.authService.validateUser(correo, clave);
-    console.log('VALIDACION', user);
-    if (!user) {
-      throw new UnauthorizedException('Correo o clave inválida.');
-    }
-    return user;
+  validate(payload: PayloadToken) {
+    return payload;
   }
 }

@@ -27,6 +27,7 @@ import {
   loginDto,
 } from 'src/administrador/dto/administrador.dto';
 import { loginLectorDto } from 'src/lector/dto/lector.dtos';
+import { TransformInterceptor } from 'src/providers/transform.interceptor';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -45,14 +46,14 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  // @UseInterceptors(TransformInterceptor)
+  @UseInterceptors(TransformInterceptor)
   @ApiResponse({ status: 200, description: 'Success.', type: null })
   @ApiResponse({ status: 500, description: 'Server error.', type: null })
   @ApiBearerAuth()
   @Get('perfil-admin')
   getOrders(@Req() req: Request) {
-    const empresa = req.user as any;
-    return this.authService.perfil(empresa.sub);
+    const admin = req.user as any;
+    return this.authService.perfil(admin.sub);
   }
 
   @Post('login-lector')
@@ -61,14 +62,14 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  // @UseInterceptors(TransformInterceptor)
+  @UseInterceptors(TransformInterceptor)
   @ApiResponse({ status: 200, description: 'Success.', type: null })
   @ApiResponse({ status: 500, description: 'Server error.', type: null })
   @ApiBearerAuth()
   @Get('perfil-lector')
   getLector(@Req() req: Request) {
-    const empresa = req.user as any;
-    return this.authService.perfilLector(empresa.sub);
+    const lector = req.user as any;
+    return this.authService.perfilLector(lector.sub);
   }
 
   @ApiBearerAuth()

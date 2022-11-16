@@ -1,5 +1,4 @@
-
 export interface PayloadToken {
-    sub: number
-    correo: string
+  sub: number;
+  correo: string;
 }

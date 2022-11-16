@@ -1,25 +1,35 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
-
+import { Exclude } from 'class-transformer';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('Administrador')
 export class Administrador {
+  @PrimaryGeneratedColumn({ name: 'Id' })
+  id: number;
 
-    @PrimaryGeneratedColumn({name: 'Id'})
-    id: number
+  @Column({ name: 'Nombre' })
+  nombre: string;
 
-    @Column({name: 'Nombre'})
-    nombre: string
+  @Column({ name: 'Correo' })
+  correo: string;
 
-    @Column({name: 'Correo'})
-    correo: string
+  @Column({ name: 'Clave' })
+  clave: string;
 
-    @Column({name: 'Clave'})
-    clave: string
+  @Exclude()
+  @Column({
+    name: 'FechaCreacion',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  fechaCreacion: Date = new Date();
 
-    @Column({ name: 'FechaCreacion'})
-    fechaCreacion: Date = new Date()
-
-    @UpdateDateColumn({name: 'FechaModificacion'})
-    fechaModificacion: Date = new Date();
+  @Exclude()
+  @UpdateDateColumn({ name: 'FechaModificacion' })
+  fechaModificacion: Date = new Date();
 }
