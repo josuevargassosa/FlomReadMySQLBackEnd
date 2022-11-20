@@ -95,4 +95,9 @@ export class AuthController {
   updateClave(@Body() payload: any) {
     return this.authService.cambiarClave(payload);
   }
+
+  @Get('nuevo')
+  nuevo() {
+    return 'soy nuevo';
+  }
 }
