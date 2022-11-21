@@ -16,6 +16,8 @@ export class ResumenService {
   async create(createComentarioDto: CreateResumanDto): Promise<CreateResumanDto | string> {
     const nuevoDato = await this.comentarioRepo.create(createComentarioDto);
     const guardarComentario: Comentario = await this.comentarioRepo.save(nuevoDato);
+    const query = await this.comentarioRepo.query(`call ${process.env.DB_NAME}.SP_CambioEstado(?,?,?)`, ['L', guardarComentario.idLibroLector, 'Prestamo']);
+    console.log(query[0]);
     return plainToClass(CreateResumanDto, guardarComentario)
   }
 
