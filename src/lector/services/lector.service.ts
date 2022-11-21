@@ -33,18 +33,27 @@ export class LectorService {
   }
 
   async findAll(): Promise<LectorDto[]> {
-    const lectores: Lector[] = await this.lectorRepo.find();
+    const lectores: Lector[] = await this.lectorRepo.find({
+      where: {
+        estado: 'A',
+      },
+    });
     return lectores.map((lector: Lector) => plainToClass(LectorDto, lector));
   }
 
   async countAll(): Promise<number> {
-    const lectores = await this.lectorRepo.count();
+    const lectores = await this.lectorRepo.count({
+      where: {
+        estado: 'A',
+      },
+    });
     return lectores;
   }
 
   async findOne(idLector): Promise<LectorDto> {
     const lector: Lector = await this.lectorRepo.findOneBy({
       id: idLector,
+      estado: 'A',
     });
     if (!lector) {
       throw new NotFoundException(`Promoción #${idLector} no encontrado`);
@@ -54,14 +63,20 @@ export class LectorService {
 
   async update(id, updateLectorDto: UpdateLectorDto): Promise<LectorDto> {
     console.log('updateLectorDto', updateLectorDto, id);
-    const lector = await this.lectorRepo.findOneBy({ id: id });
+    const lector = await this.lectorRepo.findOneBy({ id: id, estado: 'A' });
     console.log('lector', lector);
     this.lectorRepo.merge(lector, updateLectorDto);
     const guardarDato: LectorDto = await this.lectorRepo.save(lector);
     return plainToClass(LectorDto, guardarDato);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} lector`;
+  async removeLector(id: number) {
+    const lector = await this.lectorRepo.findOneBy({ id: id });
+    if (!lector) {
+      throw new NotFoundException(`No se encuentra el libro especificado`);
+    }
+    lector.estado = 'I';
+    const data = await this.lectorRepo.save(lector);
+    if (data) return 'Libro eliminado exitosamente';
   }
 }

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { LectorService } from '../services/lector.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateLectorDto, UpdateLectorDto } from '../dto/lector.dtos';
@@ -35,6 +44,6 @@ export class LectorController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.lectorService.remove(+id);
+    return this.lectorService.removeLector(+id);
   }
 }

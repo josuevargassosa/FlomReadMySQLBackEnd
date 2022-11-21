@@ -7,10 +7,13 @@ import {
   Param,
   Delete,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { LibroService } from '../services/libro.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateLibroDto, UpdateLibroDto } from '../dto/libro.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Libro')
 @Controller('libro')
@@ -42,8 +45,16 @@ export class LibroController {
     return this.libroService.update(+id, updateLibroDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.libroService.remove(+id);
-  // }
+  @Post('cargar-foto')
+  // @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('file'))
+  uploadImage(@UploadedFile() file: Express.Multer.File) {
+    const tipoFoto: String = 'libro';
+    return this.libroService.uploadImageToCloudinary(tipoFoto, file);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.libroService.removeLibro(+id);
+  }
 }
