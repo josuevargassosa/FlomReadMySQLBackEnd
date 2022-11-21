@@ -55,7 +55,8 @@ export class AuthController {
     const admin = req.user as any;
     return this.authService.perfil(admin.sub);
   }
-
+  
+  @UseGuards(AuthGuard('lector'))
   @Post('login-lector')
   loginLector(@Body() req: loginLectorDto) {
     return this.authService.generateJWTLector(req);
