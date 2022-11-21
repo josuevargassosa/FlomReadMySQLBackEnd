@@ -16,7 +16,6 @@ import {
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Exclude, Expose, Type } from 'class-transformer';
 
-
 @Exclude()
 export class LectorDto {
   @Expose()
@@ -65,22 +64,18 @@ export class LectorDto {
 }
 
 export class LectorFindDto {
-  
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   readonly id: number;
 
-
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   readonly correo: string;
-
 }
 
 export class loginLectorDto {
-
   @IsString()
   @Expose()
   @IsNotEmpty()
@@ -96,8 +91,6 @@ export class loginLectorDto {
   @ApiProperty()
   readonly clave: string;
 }
-
-
 
 export class CreateLectorDto {
   @IsString()
@@ -156,7 +149,6 @@ export class CreateLectorDto {
   readonly institucion: string;
 }
 
-
 export class UpdateLectorDto extends PartialType(CreateLectorDto) {
   @ApiProperty()
   readonly nombres: string;
@@ -187,4 +179,16 @@ export class UpdateLectorDto extends PartialType(CreateLectorDto) {
 
   @ApiProperty()
   readonly institucion: string;
+}
+
+export class cambiarClaveDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly correo: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly clave: string;
 }

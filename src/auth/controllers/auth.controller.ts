@@ -26,23 +26,29 @@ import {
   CreateAdministradorDto,
   loginDto,
 } from 'src/administrador/dto/administrador.dto';
-import { loginLectorDto } from 'src/lector/dto/lector.dtos';
+import {
+  cambiarClaveDto,
+  LectorDto,
+  loginLectorDto,
+} from 'src/lector/dto/lector.dtos';
 import { TransformInterceptor } from 'src/providers/transform.interceptor';
+import { Lector } from 'src/lector/entities/lector.entity';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @UseGuards(AuthGuard('local'))
-  @Post('login')
-  login(@Body() req: loginDto) {
-    return this.authService.generateJWT(req);
-  }
 
   // @UseGuards(AuthGuard('local'))
   @Post('register')
   register(@Body() user: CreateAdministradorDto) {
     return this.authService.register(user);
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  login(@Body() req: loginDto) {
+    return this.authService.generateJWT(req);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -55,7 +61,7 @@ export class AuthController {
     const admin = req.user as any;
     return this.authService.perfil(admin.sub);
   }
-  
+
   @UseGuards(AuthGuard('lector'))
   @Post('login-lector')
   loginLector(@Body() req: loginLectorDto) {
@@ -80,25 +86,26 @@ export class AuthController {
     return this.authService.refreshJWT(token);
   }
 
-  @Post('recuperar-clave')
-  @Public()
-  @UseGuards(AuthGuard('api_key'))
-  @ApiSecurity('api_key', ['api_key'])
-  updateClaveCorreo(@Body() payload: any) {
-    return this.authService.recuperarClave(payload);
-  }
+  // @Post('recuperar-clave')
+  // @Public()
+  // @UseGuards(AuthGuard('api_key'))
+  // @ApiSecurity('api_key', ['api_key'])
+  // updateClaveCorreo(@Body() payload: any) {
+  //   return this.authService.recuperarClave(payload);
+  // }
 
   // @UseInterceptors(TransformInterceptor)
   @ApiResponse({ status: 200, description: 'Success.', type: null })
   @ApiResponse({ status: 500, description: 'Server error.', type: null })
   @ApiBearerAuth()
   @Post('cambiar-clave')
-  updateClave(@Body() payload: any) {
+  updateClave(@Body() payload: cambiarClaveDto) {
+    console.log('payload', payload);
     return this.authService.cambiarClave(payload);
   }
 
-  @Get('nuevo')
-  nuevo() {
-    return 'soy nuevo';
-  }
+  // @Get('nuevo')
+  // nuevo() {
+  //   return 'soy nuevo';
+  // }
 }

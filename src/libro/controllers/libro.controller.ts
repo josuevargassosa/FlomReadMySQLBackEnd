@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { LibroService } from '../services/libro.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateLibroDto, UpdateLibroDto } from '../dto/libro.dto';
@@ -28,14 +37,13 @@ export class LibroController {
     return this.libroService.findOne(+id);
   }
 
-
   @Put(':id')
   update(@Param('id') id: string, @Body() updateLibroDto: UpdateLibroDto) {
     return this.libroService.update(+id, updateLibroDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.libroService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.libroService.remove(+id);
+  // }
 }

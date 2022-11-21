@@ -148,13 +148,13 @@ export class AuthService {
   }
 
   async cambiarClave(changes: any) {
-    // const user = await this.empresaService.findByEmail(changes.correo);
-    // if (user) {
-    //     const hashPassword = await bcrypt.hash(changes.clave, 10)
-    //     user.clave = await hashPassword
-    //     return this.empresaRepo.save(user);
-    // } else {
-    //     throw new NotFoundException(`No existe el correo en la plataforma.`);
-    // }
+    const user = await this.lectorRepo.findOneBy({ correo: changes.correo });
+    if (user) {
+      //const hashPassword = await bcrypt.hash(changes.clave, 10)
+      user.clave = changes.clave;
+      return this.lectorRepo.save(user);
+    } else {
+      throw new NotFoundException(`No existe el correo en la plataforma.`);
+    }
   }
 }
