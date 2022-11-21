@@ -48,14 +48,10 @@ export class AuthService {
 
   async validateUserLector(correo: string, clave: string) {
     const user = await this.findLectorByEmail(correo);
-    console.log('USER', user);
     if (user) {
       // const isMatch = await bcrypt.compare(clave, user.clave);
-      const isMatch = true ? clave == user.clave : false;
-      if (isMatch) {
-        const { clave, ...rta } = user;
-        return rta;
-      }
+      const { clave, ...rta } = user;
+      return rta;
     }
     return null;
   }
@@ -85,12 +81,13 @@ export class AuthService {
   }
 
   async generateJWTLector(usuario: loginLectorDto, message?) {
-    const data: LectorDto = await this.findLectorByEmail(usuario.correo);
+    const lectorFind: LectorDto = await this.findLectorByEmail(usuario.correo);
     const payload: PayloadToken = {
-      sub: data.id,
-      correo: data.correo,
+      sub: lectorFind.id,
+      correo: lectorFind.correo,
     };
-    console.log('DATAAAAA',data);
+    console.log('LECTOR', usuario);
+    const data = plainToClass(LectorDto, lectorFind);
     return {
       accessToken: this.jwtService.sign(payload),
       data,
@@ -98,7 +95,7 @@ export class AuthService {
     };
   }
 
-    findLectorByEmail(correo: string) {
+  findLectorByEmail(correo: string) {
     return this.lectorRepo.findOne({ where: { correo } });
   }
 

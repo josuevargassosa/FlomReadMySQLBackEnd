@@ -14,7 +14,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Administrador } from 'src/administrador/entities/administrador.entity';
 import { AuthController } from './controllers/auth.controller';
 import { Lector } from 'src/lector/entities/lector.entity';
-import { LectorStrategy } from './strategies/lector.strategy';
 
 @Module({
   imports: [
@@ -35,7 +34,7 @@ import { LectorStrategy } from './strategies/lector.strategy';
   // controllers: [AuthService, LocalStrategy, JwtStrategy],
   // providers: [AuthService],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, LectorStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   //exports: [JwtModule],
 })
 export class AuthModule {}
