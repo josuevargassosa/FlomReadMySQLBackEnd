@@ -25,7 +25,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       usernameField: 'correo',
       passwordField: 'clave',
     });
-    console.log(configService.jwtSecret);
   }
 
   // ESTA FUNCION LO QUE HARA SERA RECIBIR EL TOKEN DECODIFICADO

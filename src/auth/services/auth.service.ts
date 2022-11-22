@@ -89,7 +89,6 @@ export class AuthService {
       sub: data.id,
       correo: data.correo,
     };
-    console.log('LECTOR', usuario);
     return {
       accessToken: this.jwtService.sign(payload),
       data,
@@ -111,7 +110,6 @@ export class AuthService {
 
   async perfil(idAdmin: number) {
     var empresa = await this.administradorRepo.findOneBy({ id: idAdmin });
-    console.log('EMPRESA', empresa);
     return empresa;
   }
 

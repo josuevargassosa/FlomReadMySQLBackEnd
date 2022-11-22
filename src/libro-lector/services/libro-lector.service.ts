@@ -4,44 +4,49 @@ import { plainToClass } from 'class-transformer';
 import { LibroDto, UpdateLibroDto } from 'src/libro/dto/libro.dto';
 import { LibroService } from 'src/libro/services/libro.service';
 import { Repository } from 'typeorm';
-import { CreateLibroLectorDto, LibroLectorDto, prestamosLectorDto } from '../dto/libro-lector.dto';
+import {
+  CreateLibroLectorDto,
+  LibroLectorDto,
+  prestamosLectorDto,
+} from '../dto/libro-lector.dto';
 import { UpdateLibroLectorDto } from '../dto/libro-lector.dto';
 import { LibroLector } from '../entities/libro-lector.entity';
 
 @Injectable()
 export class LibroLectorService {
-
   constructor(
-    @InjectRepository(LibroLector) private libroLectorRepo: Repository<LibroLector>,
+    @InjectRepository(LibroLector)
+    private libroLectorRepo: Repository<LibroLector>,
     private libroService: LibroService,
-  ) {
-  }
+  ) {}
 
   //PRESTAMO
-  async create(createLibroLectorDto: CreateLibroLectorDto): Promise<CreateLibroLectorDto | string> {
-    var libro: LibroDto = await this.libroService.findOne(createLibroLectorDto.idLibro);
+  async create(
+    createLibroLectorDto: CreateLibroLectorDto,
+  ): Promise<CreateLibroLectorDto | string> {
+    var libro: LibroDto = await this.libroService.findOne(
+      createLibroLectorDto.idLibro,
+    );
     if (libro.estado == 'A') {
       const nuevoDato = await this.libroLectorRepo.create(createLibroLectorDto);
-      const guardarlibroPrestamo: LibroLector = await this.libroLectorRepo.save(nuevoDato);
-      console.log('PRESTAMO',guardarlibroPrestamo);
-      
+      const guardarlibroPrestamo: LibroLector = await this.libroLectorRepo.save(
+        nuevoDato,
+      );
+
       const librosCount = await this.libroLectorRepo.count({
         where: {
           idLibro: guardarlibroPrestamo.idLibro,
-          estado: 'P'
-        }
+          estado: 'P',
+        },
       });
-  
+
       if (librosCount == libro.cantidad) {
         this.cambiarEstado(libro, 'P');
-      } 
-      return plainToClass(CreateLibroLectorDto, guardarlibroPrestamo)
-
+      }
+      return plainToClass(CreateLibroLectorDto, guardarlibroPrestamo);
     } else {
-      return 'El libro no esta disponible'
+      return 'El libro no esta disponible';
     }
-
-
 
     // await this.cambiarEstado(libro, 'P');
   }
@@ -56,21 +61,18 @@ export class LibroLectorService {
       estado: estado,
       codigo: libro.codigo,
       cantidad: libro.cantidad,
-    }
+    };
     this.libroService.update(libro.id, updateLibro);
   }
 
   async getPrestamos(): Promise<LibroLectorDto[]> {
-    const prestamos: LibroLector[] = await this.libroLectorRepo.find(
-      {
-        relations: [
-          "libro",
-          "lector"
-        ]
-      }
-    );
+    const prestamos: LibroLector[] = await this.libroLectorRepo.find({
+      relations: ['libro', 'lector'],
+    });
     // this.calcularTiempo(prestamos);
-    return prestamos.map((libro: LibroLector) => plainToClass(LibroLectorDto, libro))
+    return prestamos.map((libro: LibroLector) =>
+      plainToClass(LibroLectorDto, libro),
+    );
   }
 
   calcularTiempo(prestamos: LibroLector[]) {
@@ -84,12 +86,10 @@ export class LibroLectorService {
   }
 
   // async findPrestamoById(idPrestamo: number): Promise<prestamosLectorDto> {
-  //   console.log(idPrestamo);
   //   const dataPrestamo: LibroLector = await this.libroLectorRepo.findOneBy({
   //     id: idPrestamo,
   //   });
-    
-  //   console.log(dataPrestamo);
+
   //   if (!dataPrestamo) {
   //     throw new NotFoundException(`Prestamo no encaaaontrado`);
   //   }
@@ -99,39 +99,40 @@ export class LibroLectorService {
   async findOne(idLector: number): Promise<prestamosLectorDto[]> {
     const dataPrestamo2: LibroLector[] = await this.libroLectorRepo.find({
       where: {
-        idLector: idLector
+        idLector: idLector,
       },
-      relations: [
-        "libro",
-      ]
-    }) 
-    console.log(dataPrestamo2);
+      relations: ['libro'],
+    });
     if (!dataPrestamo2) {
-      throw new NotFoundException(`Prestamo del lector #${idLector} no encontrado`);
+      throw new NotFoundException(
+        `Prestamo del lector #${idLector} no encontrado`,
+      );
     }
-    return dataPrestamo2.map((prestamo: LibroLector) => plainToClass(prestamosLectorDto, prestamo))
+    return dataPrestamo2.map((prestamo: LibroLector) =>
+      plainToClass(prestamosLectorDto, prestamo),
+    );
   }
 
   async cantidadLibrosLeidos(): Promise<number> {
     const libros = await this.libroLectorRepo.count({
       where: {
-        estado: 'L'
-      }
+        estado: 'L',
+      },
     });
-    return libros
+    return libros;
   }
 
   async cantidadLibrosPrestados(): Promise<number> {
     const libros = await this.libroLectorRepo.count({
       where: {
-        estado: 'P'
-      }
+        estado: 'P',
+      },
       // relation: [
       //   "libro", "libro.precio",
       //   "lector", "lector.precio"
       // ]
     });
-    return libros
+    return libros;
   }
 
   update(id: number, updateLibroLectorDto: UpdateLibroLectorDto) {

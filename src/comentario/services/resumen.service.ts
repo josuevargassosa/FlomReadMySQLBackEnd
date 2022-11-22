@@ -27,7 +27,6 @@ export class ResumenService {
       `call ${process.env.DB_NAME}.SP_CambioEstado(?,?,?)`,
       ['L', guardarComentario.idLibroLector, 'Prestamo'],
     );
-    console.log(query[0]);
     return plainToClass(CreateResumanDto, guardarComentario);
   }
 
@@ -35,7 +34,6 @@ export class ResumenService {
     const comentarios: Comentario[] = await this.comentarioRepo.find({
       relations: ['libro', 'lector'],
     });
-    console.log(comentarios);
     return comentarios.map((resumen: Comentario) =>
       plainToClass(ResumenDto, resumen),
     );
