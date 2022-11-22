@@ -82,7 +82,6 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('refresh-access-token')
   getToken(@Body() token: any) {
-    console.log('REFRESSSS', token);
     return this.authService.refreshJWT(token);
   }
 
@@ -100,7 +99,6 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('cambiar-clave')
   updateClave(@Body() payload: cambiarClaveDto) {
-    console.log('payload', payload);
     return this.authService.cambiarClave(payload);
   }
 

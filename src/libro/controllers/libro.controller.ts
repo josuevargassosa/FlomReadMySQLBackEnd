@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { LibroService } from '../services/libro.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateLibroDto, UpdateLibroDto } from '../dto/libro.dto';
+import { CreateLibroDto, LibroDto, UpdateLibroDto } from '../dto/libro.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Libro')
@@ -40,9 +40,19 @@ export class LibroController {
     return this.libroService.findOne(+id);
   }
 
+  @Get('/codigo/:codigo')
+  findBookByCodigo(@Param('codigo') codigo: string) {
+    return this.libroService.findLibroByCodigo(codigo);
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateLibroDto: UpdateLibroDto) {
     return this.libroService.update(+id, updateLibroDto);
+  }
+
+  @Post('estado/:id/:estado')
+  updateEstado(@Param('id') id: string, @Param('estado') estado: string) {
+    return this.libroService.cambiarEstadoLibro(+id, estado);
   }
 
   @Post('cargar-foto')
