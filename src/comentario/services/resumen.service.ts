@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -39,8 +39,14 @@ export class ResumenService {
     );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} resuman`;
+  async findComentarioByIdPrestamo(idPrestamo: number) {
+    const resumen: Comentario = await this.comentarioRepo.findOneBy({
+      idLibroLector: idPrestamo,
+    })
+    if (!resumen) {
+      throw new NotFoundException(`resumen no encontrado`);
+    }
+    return plainToClass(ResumenDto, resumen);
   }
 
   update(id: number, updateResumanDto: UpdateResumanDto) {
