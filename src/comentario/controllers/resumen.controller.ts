@@ -26,6 +26,12 @@ export class ResumenController {
     return this.resumenService.findAll();
   }
 
+  @Get('prestamo/:idPrestamo')
+  findOne(@Param('idPrestamo') idPrestamo: number) {
+    console.log('ID PRESTAMO', idPrestamo);
+    return this.resumenService.findComentarioByIdPrestamo(idPrestamo);
+  }
+
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.resumenService.findOne(+id);

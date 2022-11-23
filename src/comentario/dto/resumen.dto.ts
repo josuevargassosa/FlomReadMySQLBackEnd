@@ -2,13 +2,12 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Exclude, Expose, Type } from 'class-transformer';
 import { IsNumber } from 'class-validator';
 
-
 @Exclude()
 export class ResumenDto {
   @Expose()
   @ApiProperty()
   readonly id: number;
-  
+
   @Expose()
   @ApiProperty()
   readonly lector: number;
@@ -16,6 +15,14 @@ export class ResumenDto {
   @Expose()
   @ApiProperty()
   readonly libro: number;
+
+  @Expose()
+  @ApiProperty()
+  readonly idLector: number;
+
+  @Expose()
+  @ApiProperty()
+  readonly idLibro: number;
 
   @Expose()
   @ApiProperty()
@@ -29,7 +36,6 @@ export class ResumenDto {
   @ApiProperty()
   readonly fechaCreacion: Date;
 }
-
 
 export class CreateResumanDto {
   @IsNumber()
