@@ -103,6 +103,7 @@ export class LibroLectorService {
       },
       relations: ['libro'],
     });
+    console.log(dataPrestamo2);
     if (!dataPrestamo2) {
       throw new NotFoundException(
         `Prestamo del lector #${idLector} no encontrado`,
