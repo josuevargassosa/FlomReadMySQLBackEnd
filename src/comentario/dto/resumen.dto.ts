@@ -19,14 +19,6 @@ export class ResumenDto {
 
   @Expose()
   @ApiProperty()
-  readonly idLector: number;
-
-  @Expose()
-  @ApiProperty()
-  readonly idLibro: number;
-
-  @Expose()
-  @ApiProperty()
   readonly idLibroLector: number;
 
   @Expose()
