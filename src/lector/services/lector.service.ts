@@ -8,6 +8,7 @@ import { plainToClass } from 'class-transformer';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { RelationId, Repository } from 'typeorm';
 import {
+  actualizarFotoPerfilDto,
   CreateLectorDto,
   LectorDto,
   UpdateLectorDto,
@@ -79,9 +80,9 @@ export class LectorService {
     return plainToClass(LectorDto, guardarDato);
   }
 
-  async actualizarFoto(id: number, foto: string) {
+  async actualizarFoto(id: number, foto: actualizarFotoPerfilDto) {
     const lector = await this.lectorRepo.findOneBy({ id: id });
-    lector.fotoPerfil = foto;
+    lector.fotoPerfil = foto.fotoPerfil;
     const guardarDato: LectorDto = await this.lectorRepo.save(lector);
     console.log(guardarDato);
     return plainToClass(LectorDto, guardarDato);

@@ -12,7 +12,11 @@ import {
 } from '@nestjs/common';
 import { LectorService } from '../services/lector.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateLectorDto, UpdateLectorDto } from '../dto/lector.dtos';
+import {
+  actualizarFotoPerfilDto,
+  CreateLectorDto,
+  UpdateLectorDto,
+} from '../dto/lector.dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Lector')
@@ -68,8 +72,11 @@ export class LectorController {
     return this.lectorService.removeLector(+id);
   }
 
-  @Post('actualizar-foto/:id/:foto')
-  actualizarFoto(@Param('id') id: string, @Param('foto') foto: string) {
+  @Put('actualizar-foto/:id')
+  actualizarFoto(
+    @Param('id') id: string,
+    @Body() foto: actualizarFotoPerfilDto,
+  ) {
     return this.lectorService.actualizarFoto(+id, foto);
   }
 }

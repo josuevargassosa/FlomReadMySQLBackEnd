@@ -63,6 +63,12 @@ export class LectorDto {
   readonly institucion: string;
 }
 
+export class actualizarFotoPerfilDto {
+  @Expose()
+  @ApiProperty()
+  readonly fotoPerfil: string;
+}
+
 export class LectorFindDto {
   @IsString()
   @IsNotEmpty()
