@@ -79,8 +79,19 @@ export class LectorService {
     return plainToClass(LectorDto, guardarDato);
   }
 
+  async actualizarFoto(id: number, foto: string) {
+    const lector = await this.lectorRepo.findOneBy({ id: id });
+    lector.fotoPerfil = foto;
+    const guardarDato: LectorDto = await this.lectorRepo.save(lector);
+    console.log(guardarDato);
+    return plainToClass(LectorDto, guardarDato);
+  }
+
   async cambiarEstadoLector(id: number, estado: string): Promise<LectorDto> {
     const lector = await this.lectorRepo.findOneBy({ id: id });
+    if (!lector) {
+      throw new NotFoundException(`No se encuentra el lector especificado`);
+    }
     console.log(lector);
     lector.estado = estado;
     const guardarDato: Lector = await this.lectorRepo.save(lector);

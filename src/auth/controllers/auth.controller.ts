@@ -96,9 +96,10 @@ export class AuthController {
   // @UseInterceptors(TransformInterceptor)
   @ApiResponse({ status: 200, description: 'Success.', type: null })
   @ApiResponse({ status: 500, description: 'Server error.', type: null })
-  @ApiBearerAuth()
+  @Public()
   @Post('cambiar-clave')
   updateClave(@Body() payload: cambiarClaveDto) {
+    console.log('payload', payload);
     return this.authService.cambiarClave(payload);
   }
 

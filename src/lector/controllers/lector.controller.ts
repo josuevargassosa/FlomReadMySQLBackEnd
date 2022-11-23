@@ -67,4 +67,9 @@ export class LectorController {
   remove(@Param('id') id: string) {
     return this.lectorService.removeLector(+id);
   }
+
+  @Post('actualizar-foto/:id/:foto')
+  actualizarFoto(@Param('id') id: string, @Param('foto') foto: string) {
+    return this.lectorService.actualizarFoto(+id, foto);
+  }
 }
